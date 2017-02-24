@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TicTac</string>
+    <string name="format_playerturn">Go player %s</string>
+</resources>
