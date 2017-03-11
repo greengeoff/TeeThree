@@ -2,8 +2,6 @@ package com.glt.tictac.fragments;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.constraint.solver.SolverVariable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,9 +30,9 @@ public class GameFragment extends Fragment {
     public String TAG = this.getClass().getSimpleName();
 
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(R.layout.fragment_game, container, false);

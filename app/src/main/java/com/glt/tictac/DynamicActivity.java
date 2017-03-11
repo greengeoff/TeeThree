@@ -42,8 +42,8 @@ implements MenuFragment.MenuListener {
             menuFragment = new MenuFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, menuFragment, MENU_FRAGMENT)
-                    //.addToBackStack(null)
+
+                    .add(R.id.fragment_container, menuFragment, MENU_FRAGMENT)
                     .commit();
 
             // portrait but there is a saved state

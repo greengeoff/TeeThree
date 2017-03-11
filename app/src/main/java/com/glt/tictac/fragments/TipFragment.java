@@ -57,7 +57,7 @@ public class TipFragment extends Fragment {
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
 
             public View makeView() {
-                // TODO Auto-generated method stub
+
                 // create new textView and set the properties like clolr, size etc
                 TextView myText = new TextView(context);
                 myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
@@ -77,7 +77,7 @@ public class TipFragment extends Fragment {
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO Auto-generated method stub
+
                 switcherIndex++;
                 // If index reaches maximum reset it
                 if(switcherIndex ==  tipCount)
@@ -85,12 +85,8 @@ public class TipFragment extends Fragment {
                 if(switcher !=null) {
                     switcher.setText(ticTacTips[switcherIndex]);
                 }
-
             }
         });
-
-
-
     }
 
     @Override
