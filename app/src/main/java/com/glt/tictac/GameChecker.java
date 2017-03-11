@@ -2,6 +2,9 @@ package com.glt.tictac;
 
 import android.util.Log;
 
+import com.glt.tictac.utils.BoardUtils;
+import com.glt.tictac.utils.Constants;
+
 /**
  * Created by gltrager on 2/24/17.
  */
@@ -19,20 +22,21 @@ public class GameChecker {
     public static final int O_mark = 2;
     public static final int no_mark = 0;
 
-    public static int board[][];
-
     /**
      * Checks moves made and win status for a t3 board
-     * @param board
+     *
      * @return the status of the current bord
      */
-    public static int GameChecker(int[][] board) {
-        GameChecker.board = board;
+    public static int gameStatus(int[][] board) {
+        //System.out.println(" status :");
+        //BoardUtils.printBoard(board);
         int x_marks = 0;
         int o_marks = 0;
-        int openSpots = 0;
-        if (isWonBy(O_mark)) return OplayerWins;
-        else if(isWonBy(X_mark)) return XplayerWins;
+        int no_marks = 0;
+        if (isWonBy(O_mark, board)){
+            return OplayerWins;}
+        else if(isWonBy(X_mark, board)){
+            return XplayerWins;}
 
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
@@ -44,31 +48,76 @@ public class GameChecker {
                         x_marks++;
                         break;
                     case no_mark:
-                        openSpots++;
+                        no_marks++;
                 }
             }
         }
-        if (openSpots == 0) return TieGame;
-        if (x_marks > o_marks) return isPlayerOTurn;
-        if (x_marks == o_marks) return isPlayerXTurn;
+        //System.out.println("omark: " + o_marks +
+        //                    "\nxmark: " + x_marks +
+        //                     "\nempty: " + no_marks);
+        if (no_marks == 0){
+            return TieGame;}
+        if (x_marks > o_marks){
+            return isPlayerOTurn;}
+        if (x_marks == o_marks) {
+            return isPlayerXTurn;}
         Log.d("Game Checker", "should never be reached");
         return -1;
     }
+    public static int getNextPlayerToken(int[][] board){
+        int status = gameStatus(board);
+        //System.out.println(" player token : "+ status);
+        switch(status){
+            case isPlayerOTurn:
+                return 2;
+            case isPlayerXTurn:
+                return 1;
+            default:
+                return 0;
+        }
+    }
 
-    public static boolean isWonBy(int player){
+    public static boolean isWonBy(int player, int[][] board){
         // check cols (iterate row position)
         return player == board[0][0]  && player == board[0][1] && player == board[0][2] ||
         player == board[1][0] && player == board[1][1] && player == board[1][2] ||
         player == board[2][0] && player == board[2][1] && player == board[2][2] ||
 
         // rows
-        player == board[0][1] && player  == board[1][1]&& player  == board[2][1] ||
+        player == board[0][0] && player == board[1][0]&& player  == board[2][0] ||
+        player == board[0][1] && player == board[1][1] && player == board[2][1] ||
         player == board[0][2] && player == board[1][2] && player == board[2][2] ||
-        player == board[0][3] && player == board[1][3] && player == board[2][3] ||
 
         player == board[0][0] && player == board[1][1] && player == board[2][2] ||
-        player == board[2][0] && player == board[1][1] && player == board[2][2] ;
+                player == board[0][2] && player == board[1][1] && player == board[2][0];
 
+    }
+
+    public static int getWinType(int player, int[][] board){
+        if (player == board[0][0]  && player == board[0][1] && player == board[0][2])
+            return Constants.RESULT_WIN_0_2;
+        if(player == board[1][0] && player == board[1][1] && player == board[1][2]){
+            return Constants.RESULT_WIN_3_5;
+        }
+        if(player == board[2][0] && player == board[2][1] && player == board[2][2]){
+            return Constants.RESULT_WIN_6_8;
+        }
+        if(player == board[0][0] && player == board[1][0]&& player  == board[2][0]){
+            return Constants.RESULT_WIN_0_6;
+        }
+        if(player == board[0][1] && player == board[1][1] && player == board[2][1]){
+            return Constants.RESULT_WIN_1_7;
+        }
+        if(player == board[0][2] && player == board[1][2] && player == board[2][2]){
+            return Constants.RESULT_WIN_2_8;
+        }
+        if(player == board[0][0] && player == board[1][1] && player == board[2][2]){
+            return Constants.RESULT_WIN_0_8;
+        }
+        if(player == board[0][2] && player == board[1][1] && player == board[2][0]){
+            return Constants.RESULT_WIN_6_2;
+        }
+        else return Constants.RESULT_TIE;
     }
 
     public static int findWin(int player){ return 0;}

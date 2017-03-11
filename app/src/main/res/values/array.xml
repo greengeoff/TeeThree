@@ -1,0 +1,14 @@
+
+<resources>
+    <string-array name="ticTips">
+        <item>X always plays first.</item>
+        <item>Good players should always draw or win.</item>
+        <item>House rule #1: a play in the center must block.</item>
+        <item>In England, the game is called \"Crosses and Naughts\".</item>
+        <item>Tics are six-legged parasites.</item>
+        <item>Tacs help us pin papers onto the wall.</item>
+        <item>XOXO can mean \'hugs and kisses\' on love letters.</item>
+        <item>There are 765 possible positions.</item>
+        <item>Variants of the game include Notakto and Treblecross.</item>
+    </string-array>
+</resources>
