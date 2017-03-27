@@ -1,4 +1,4 @@
 # TeeThree
-A basic android tictactoe game with AI opponent.
+A basic Android tic-tac-toe game with AI opponent.
 
 
