@@ -1,13 +1,19 @@
 package com.glt.tictac;
 
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.glt.tictac.fragments.GameFragment;
 import com.glt.tictac.fragments.MenuFragment;
 
-
+/**
+ * Activity that encloses two fragments: Game Fragment and MenuFragment.
+ * On larger screens, both are displayed simultaneously;
+ * on smaller, only one.
+ */
 public class DynamicActivity extends AppCompatActivity
 implements MenuFragment.MenuListener {
 
@@ -18,8 +24,6 @@ implements MenuFragment.MenuListener {
     private static String MENU_FRAGMENT = "menu_fragment";
 
     private static String EXTRA_GAME_IN_PROGRESS = "progress_extra";
-
-    // private static  int[][] savedBoard;
 
     private int gameType;
     private boolean gameInProgress = false;
@@ -35,7 +39,6 @@ implements MenuFragment.MenuListener {
         setContentView(R.layout.activity_dynamic);
 
 
-
         if (findViewById(R.id.fragment_container) != null // portrait, and first load
                 && savedInstanceState == null) {
 
@@ -45,24 +48,6 @@ implements MenuFragment.MenuListener {
 
                     .add(R.id.fragment_container, menuFragment, MENU_FRAGMENT)
                     .commit();
-
-            // portrait but there is a saved state
-        } else if ( findViewById(R.id.fragment_container) != null // portrait with saved data
-                && savedInstanceState != null){
-
-            gameInProgress = savedInstanceState.getBoolean(EXTRA_GAME_IN_PROGRESS);
-            System.out.println(" *** " + gameInProgress + " *** ");
-
-            if(gameInProgress) {
-                //if(getSupportFragmentManager().findFragmentByTag(GAME_FRAGMENT)== null) {
-                gameFragment = new GameFragment();
-                //}
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, gameFragment, GAME_FRAGMENT)
-                        //.addToBackStack(null)
-                        .commit();
-            }
-
         }
     }
     @Override
@@ -70,12 +55,14 @@ implements MenuFragment.MenuListener {
         super.onDestroy(); // Add this line
     }
 
-
+    // implement the MenuFragment listener
     @Override
     public void gameTypeChosen(int gameType) {
         this.gameType = gameType;
         this.gameInProgress = true;
-        if(findViewById(R.id.fragment_container) != null){ // portrait orientation
+
+        // portrait orientation - engage a fragment transaction to display GameFragment
+        if(findViewById(R.id.fragment_container) != null){
 
             GameFragment gameFragment = new GameFragment();
             Bundle args = new Bundle();
@@ -86,6 +73,7 @@ implements MenuFragment.MenuListener {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, gameFragment)
                     .addToBackStack(null)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit();
         }else{
             TTTView board = (TTTView)findViewById(R.id.ttt_View);
@@ -95,4 +83,30 @@ implements MenuFragment.MenuListener {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(EXTRA_GAME_IN_PROGRESS, gameInProgress);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        // if a game is in progress, display game fragment
+        if(findViewById(R.id.fragment_container )!= null) {
+            gameInProgress = savedInstanceState.getBoolean(EXTRA_GAME_IN_PROGRESS, false);
+
+            if (gameInProgress) {
+                //if(getSupportFragmentManager().findFragmentByTag(GAME_FRAGMENT)== null) {
+                gameFragment = new GameFragment();
+                //}
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, gameFragment, GAME_FRAGMENT)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+
+    }
 }

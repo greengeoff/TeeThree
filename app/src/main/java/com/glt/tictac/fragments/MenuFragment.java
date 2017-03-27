@@ -22,6 +22,9 @@ public class MenuFragment extends Fragment {
 
     public final String TAG = this.getClass().getSimpleName();
 
+    /**
+     * Enclosing activity must implement an observer to menu item selections
+     */
     public interface MenuListener{
         void gameTypeChosen(int gameType);
     }
@@ -36,10 +39,9 @@ public class MenuFragment extends Fragment {
     public static final int DROID_DROID_GAME = 2;
     public static String gameTypeExtra = "gameType";
 
-
-    @Nullable
+    // wire up menu buttons
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_menu,container, false);
 
@@ -71,6 +73,9 @@ public class MenuFragment extends Fragment {
 
 
     @Override
+    /**
+     * Ensure enclosing activity implements callback.
+     */
     public void onAttach(Context context) {
         super.onAttach(context);
         try{
@@ -82,6 +87,9 @@ public class MenuFragment extends Fragment {
     }
 
     @Override
+    /**
+     * Detach from activity.
+     */
     public void onDetach() {
         super.onDetach();
         listener = null;

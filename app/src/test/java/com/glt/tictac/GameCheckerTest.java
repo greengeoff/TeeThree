@@ -31,7 +31,7 @@ public class GameCheckerTest {
                 {1, 0, 0},
                 {1, 0, 0}
         };
-        checker.swapBaord(xyBoard);
+        //checker.swapBaord(xyBoard);
         assertTrue(checker.isWonBy(1, xyBoard));
 
         int[][] yhBoard = {
@@ -39,7 +39,7 @@ public class GameCheckerTest {
                 {2, 2, 2},
                 {0, 0, 0}
         };
-        checker.swapBaord(yhBoard);
+        //checker.swapBaord(yhBoard);
         assertTrue(checker.isWonBy(2, yhBoard));
 
         int[][] yyBoard = {
@@ -47,7 +47,7 @@ public class GameCheckerTest {
                 {2, 0, 0},
                 {2, 0, 0}
         };
-        checker.swapBaord(yyBoard);
+        //checker.swapBaord(yyBoard);
         assertTrue(checker.isWonBy(2, yyBoard));
 
 
@@ -57,7 +57,7 @@ public class GameCheckerTest {
                 {0, 0, 1}
         };
 
-        checker.swapBaord(xCrossBoard);
+        //checker.swapBaord(xCrossBoard);
         assertTrue(checker.isWonBy(1, xCrossBoard));
 
         int[][] yCrossBoard = {
@@ -66,7 +66,7 @@ public class GameCheckerTest {
                 {2, 0, 2}
         };
 
-        checker.swapBaord(yCrossBoard);
+        //checker.swapBaord(yCrossBoard);
         assertTrue(checker.isWonBy(2, yCrossBoard));
     }
     @Test

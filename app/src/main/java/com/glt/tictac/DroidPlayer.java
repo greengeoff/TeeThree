@@ -3,15 +3,15 @@ package com.glt.tictac;
 import android.util.Log;
 
 /**
- * Created by gltrager on 2/27/17.
+ * AI player that can make a reasonable move, provided a standard 2x2 tic-tac-toe board
  */
 
 public class DroidPlayer {
 
-    private static int playerToken = 1;
-    private static int opToken = 2;
+    private static int PLAYER_TOKEN = 1;
+    private static int OP_TOKEN = 2;
 
-    // Droid player outsources it's game logic to a util class GameChecker
+    // Droid player outsources it's game logic to utility class GameChecker
     GameChecker checker;
 
     /**
@@ -25,24 +25,24 @@ public class DroidPlayer {
         if (checker == null){
             checker = new GameChecker();
         }
-        playerToken = player;
+        PLAYER_TOKEN = player;
 
-        // oppenents token used when checking for a blocking move
-        opToken =   playerToken == 1 ? 2 : 1;
+        // opponents token used when checking for a blocking move
+        OP_TOKEN =   PLAYER_TOKEN == 1 ? 2 : 1;
         if(board == null) {
             Log.e("DroidTest", " no board");
             return null;
         }
 
 
-        // find a win for playerToken
+        // find a win for PLAYER_TOKEN
         for(int i = 0; i < board.length; i ++){
             for(int j = 0; j < board[i].length; j ++){
                 int temp = board[i][j];
                 if(temp == 0){
-                    board[i][j] = playerToken;
+                    board[i][j] = PLAYER_TOKEN;
                     ///this shows a win
-                    if (checker.isWonBy(playerToken, board)){
+                    if (checker.isWonBy(PLAYER_TOKEN, board)){
                         //System.out.println("found a win");
                         return board;
                     }else{
@@ -56,15 +56,15 @@ public class DroidPlayer {
 
 
 
-        // find a block of opToken
+        // find a block of OP_TOKEN
         for(int i = 0; i < board.length; i ++){
             for(int j = 0; j < board[i].length; j ++){
                 int temp = board[i][j];
                 if(temp == 0){
-                    board[i][j] = opToken;
+                    board[i][j] = OP_TOKEN;
                     ///this shows a win
-                    if (checker.isWonBy(opToken, board)){
-                        board[i][j] = playerToken;
+                    if (checker.isWonBy(OP_TOKEN, board)){
+                        board[i][j] = PLAYER_TOKEN;
                         //System.out.println("found a block");
                         return board;
                     }else{
@@ -78,19 +78,19 @@ public class DroidPlayer {
 
         // take center spot, else a side-center spot
         if(board[1][1] == 0){
-            board[1][1] = playerToken;
+            board[1][1] = PLAYER_TOKEN;
             return board;
         }else if(board[0][1] == 0){
-            board[0][1] = playerToken;
+            board[0][1] = PLAYER_TOKEN;
             return board;
         }else if(board[1][0] == 0){
-            board[1][0] = playerToken;
+            board[1][0] = PLAYER_TOKEN;
             return board;
         }else if(board[1][2] == 0){
-            board[1][2] = playerToken;
+            board[1][2] = PLAYER_TOKEN;
             return board;
         }else if(board[2][1] == 0){
-            board[2][1] = playerToken;
+            board[2][1] = PLAYER_TOKEN;
             return board;
         }
 
@@ -102,7 +102,7 @@ public class DroidPlayer {
                 int temp = board[i][j];
                 if(temp == 0){
                     //System.out.println("found an empty");
-                    board[i][j] = playerToken;
+                    board[i][j] = PLAYER_TOKEN;
                     return board;
 
 
@@ -110,9 +110,8 @@ public class DroidPlayer {
 
             }
         }
-
         // if win has been confirmed, this shouldn't be reached
-        System.out.println("didnt find anything");
+        System.out.println("didn't find anything");
         return board;
     }
 }

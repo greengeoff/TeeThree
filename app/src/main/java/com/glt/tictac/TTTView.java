@@ -24,15 +24,18 @@ import java.util.List;
 import com.glt.tictac.utils.Constants;
 
 /**
- * Created by gltrager on 2/28/17.
+ * Class that runs and displays a tic-tac-toe game
  */
 
 public class TTTView extends View {
 
+    // used for checking game status
     private GameChecker gameChecker;
 
+    //provides an droip opponent
     private DroidPlayer droid;
 
+    // creates delay for more natural droid play
     private Handler handler;
 
     private int gameType;
@@ -56,18 +59,8 @@ public class TTTView extends View {
             this.y = y;
             this.c = c;
         }
-
-        @Override
-        public String toString() {
-            return "DrawData{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    ", c=" + c +
-                    '}';
-        }
     }
 
-    // dependent of draw data below
     private int[][] board = {
             {0,0,0},
             {0,0,0},
@@ -75,6 +68,7 @@ public class TTTView extends View {
 
     // drawable data
     private List<DrawData> drawData;
+
     //used to convert int to char token
     private final char[] charMap = {' ','X','O'};
 
@@ -84,7 +78,7 @@ public class TTTView extends View {
     public final float SQUARE_LENGTH = 1.0f / 3.0f;
     public final float LETTER_SIDE_LENGTH = 0.26f;
 
-
+    // constructor
     public TTTView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -96,10 +90,7 @@ public class TTTView extends View {
 
         setSaveEnabled(true);
 
-        //setBackgroundColor(Color.TRANSPARENT);
-
         gameChecker = new GameChecker();
-        //gameChecker.gameStatus(board);
 
         // init array list of drawable marks, X's and O's
         drawData = new ArrayList<>();
@@ -167,34 +158,27 @@ public class TTTView extends View {
         //System.out.println("now playing " + gameChecker.getNextPlayerToken(board) + " at " + xInd+" , "+yInd);
         board[xInd][yInd] = gameChecker.getNextPlayerToken(board);
 
-        BoardUtils.printBoard(board);
+        //BoardUtils.printBoard(board);
         inflateDrawData();
         postInvalidate();
 
         if ( gameType == Constants.GAME_TYPE_HUMAN_DROID){
-            System.out.println("humdro true");
             getDroidMove();
         }
-          //System.out.println("humdro false");
-
-        //TTTView.this.postInvalidate();
-        //System.out.println(drawData);
-
-        // could be commented out to swallow ,,, uncomment to implement accessibility
         return true;
 
     }
 
     private void getDroidMove() {
-        System.out.println("droid move");
+        //System.out.println("droid move");
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println("testing for token: " +gameChecker.getNextPlayerToken(board));
+
                 board = droid.makeMoveFor(gameChecker.getNextPlayerToken(board) , board);
                 inflateDrawData();
                 postInvalidate();
-                System.out.println("in handle");
+
                 BoardUtils.printBoard(board);
                 if(gameChecker.getNextPlayerToken(board) != 0
                         && gameType == Constants.GAME_TYPE_DROID_DROID) {
@@ -218,6 +202,8 @@ public class TTTView extends View {
         inflateDrawData();
         postInvalidate();
     }
+
+    // convert int board into a list of drawables
     private void inflateDrawData(){
         char aChar;
         drawData.clear();
@@ -225,7 +211,6 @@ public class TTTView extends View {
             for (int i = 0; i < board.length; i ++){
                 for(int j = 0; j < board[i].length; j++){
                     aChar = charMap[  board[i][j]  ];
-                    //System.out.println("char is : " + aChar);
                     drawData.add(new DrawData( i , j, aChar ));
                 }
             }
@@ -238,6 +223,7 @@ public class TTTView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
+    // set Measured dimensions (width,height) equal to create a square shape
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -255,7 +241,6 @@ public class TTTView extends View {
 
         super.onDraw(canvas);
 
-        //System.out.println("in onDraw!");
         int width = getWidth();
         int height = getHeight();
 

@@ -10,65 +10,74 @@ import static org.junit.Assert.*;
  */
 
 public class DroidPlayerTest {
+    DroidPlayer droid;
+
+    @Before
+    public void setUp() {
+        droid = new DroidPlayer();
+    }
 
     @Test
     public void DroidWinsInOneMove(){
-        GameChecker checker = new GameChecker();
-        DroidPlayer droid = new DroidPlayer();
+
         int playerToken = 1;
 
 
-        int[][] board_1a = {
+        int[][] board_1 = {
                 {0, 0, 0},
                 {1, 1, 0},
                 {0, 0, 0}
         };
-        int[][] board_1b = {
+
+        int [][] test_1 = droid.makeMoveFor(playerToken, board_1);
+
+
+        int[][] board_spec = {
                 {0, 0, 0},
                 {1, 1, 1},
                 {0, 0, 0}
         };
 
+        assertArrayEquals(test_1[1],board_spec[1]);
 
-        //assertArrayEquals(droid.showWinFor(playerToken,board_1b[1]);
+        //
 
-        int[][] board_2a = {
+        int[][] board_2 = {
                 {0, 0, 0},
-                {1, 1, 0},
-                {0, 0, 0}
+                {0, 1, 0},
+                {1, 0, 0}
         };
-        int[][] board_2b = {
-                {0, 0, 0},
-                {1, 1, 1},
-                {0, 0, 0}
+        int[][] test_2 = droid.makeMoveFor(playerToken, board_2);
+        int[][] board_spec_2 = {
+                {0, 0, 1},
+                {0, 1, 0},
+                {1, 0, 0}
         };
-        //droid.swapBoard(board_2a);
-        //checker.swapBaord(board_2a);
-        //assertArrayEquals(droid.showWinFor(playerToken)[1],board_2b[1]);
+        assertArrayEquals(test_2[0],board_spec_2[0]);
 
 
     }
 
     @Test
     public void DroidOptsToBlockWin(){
-        GameChecker checker = new GameChecker();
-        DroidPlayer droid = new DroidPlayer();
+
         int playerToken = 1;
 
 
-        int[][] board_1a = {
+        int[][] board_1 = {
                 {0, 0, 1},
                 {2, 2, 0},
                 {0, 1, 0}
         };
-        int[][] board_1b = {
+
+        int [][] test_1 = droid.makeMoveFor(playerToken, board_1);
+        int[][] board_spec_1 = {
                 {0, 0, 1},
                 {2, 2, 1},
                 {0, 1, 0}
         };
-        //droid.swapBoard(board_1a);
-        //hecker.swapBaord(board_1a);
-        //assertArrayEquals(droid.showWinFor(playerToken)[1],board_1b[1]);
+
+        assertArrayEquals(test_1[1],board_spec_1[1]);
 
     }
 

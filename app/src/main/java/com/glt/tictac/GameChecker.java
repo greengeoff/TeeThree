@@ -6,7 +6,7 @@ import com.glt.tictac.utils.BoardUtils;
 import com.glt.tictac.utils.Constants;
 
 /**
- * Created by gltrager on 2/24/17.
+ * Determines status of a 2x2 tic-tac-toe board.
  */
 
 public class GameChecker {
@@ -28,8 +28,6 @@ public class GameChecker {
      * @return the status of the current bord
      */
     public static int gameStatus(int[][] board) {
-        //System.out.println(" status :");
-        //BoardUtils.printBoard(board);
         int x_marks = 0;
         int o_marks = 0;
         int no_marks = 0;
@@ -52,9 +50,7 @@ public class GameChecker {
                 }
             }
         }
-        //System.out.println("omark: " + o_marks +
-        //                    "\nxmark: " + x_marks +
-        //                     "\nempty: " + no_marks);
+
         if (no_marks == 0){
             return TieGame;}
         if (x_marks > o_marks){
@@ -64,9 +60,12 @@ public class GameChecker {
         Log.d("Game Checker", "should never be reached");
         return -1;
     }
+
+    /**
+     * @return int token of next players move
+     */
     public static int getNextPlayerToken(int[][] board){
         int status = gameStatus(board);
-        //System.out.println(" player token : "+ status);
         switch(status){
             case isPlayerOTurn:
                 return 2;
@@ -77,6 +76,9 @@ public class GameChecker {
         }
     }
 
+    /**
+     * @return whether the provided player has a won final position
+      */
     public static boolean isWonBy(int player, int[][] board){
         // check cols (iterate row position)
         return player == board[0][0]  && player == board[0][1] && player == board[0][2] ||
@@ -93,6 +95,9 @@ public class GameChecker {
 
     }
 
+    /**
+     * @return constant used for drawing the appropriate line to illustrate a winning line of tokens on the board
+     */
     public static int getWinType(int player, int[][] board){
         if (player == board[0][0]  && player == board[0][1] && player == board[0][2])
             return Constants.RESULT_WIN_0_2;
@@ -119,8 +124,6 @@ public class GameChecker {
         }
         else return Constants.RESULT_TIE;
     }
-
-    public static int findWin(int player){ return 0;}
 
 }
 

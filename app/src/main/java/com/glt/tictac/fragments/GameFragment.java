@@ -3,7 +3,6 @@ package com.glt.tictac.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,15 @@ import com.glt.tictac.TTTView;
 import com.glt.tictac.utils.Constants;
 
 /**
- * Created by gltrager on 3/7/17.
+ * Fragment displays a title and a TTTView which presents a tic-tac-toe board
+ * and handles game logic.
+ *
+ * There are 3 game types - Human v. Human, Human v. Droid, and Droid v. Droid
  */
 
 public class GameFragment extends Fragment {
+
+    public String TAG = this.getClass().getSimpleName();
 
     public static String ARG_GAME_TYPE = "game_type";
 
@@ -26,35 +30,26 @@ public class GameFragment extends Fragment {
     private TextView gameTitle;
 
     private int[][] board;
-    private  int gameType;
-    public String TAG = this.getClass().getSimpleName();
+    private int gameType;
 
-
-
+    /**
+     * Prepare board via game type arg from enclosing activity
+     */
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         View v = inflater.inflate(R.layout.fragment_game, container, false);
-
-
         boardView = (TTTView)v.findViewById(R.id.ttt_View);
 
         // check for gameType argument and set game type accordingly
         Bundle arg = getArguments();
         if(arg != null){
             gameType = arg.getInt(ARG_GAME_TYPE);
-            Log.d("gameFrag", "game type: " + String.valueOf(gameType));
-
-
             boardView.setGameType(gameType);
             boardView.clearBoard();
             gameTitle = (TextView)v.findViewById(R.id.gameTitle);
             setGameTitle(gameType);
-
-        }else if(savedInstanceState != null){
-            boolean gameInProgress;
-            //gameInProgress = savedInstanceState.getBoolean();
 
         }
         return v;
